@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/taskflow
-    username: taskflow
-    password: taskflow
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/taskflow}
+    username: ${DB_USER:taskflow}
+    password: ${DB_PASSWORD:taskflow}
   jpa:
     hibernate:
       ddl-auto: update
@@ -10,3 +10,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+app:
+  jwt:
+    # Em produção, SEMPRE defina JWT_SECRET (mínimo 32 caracteres)
+    secret: ${JWT_SECRET:dev-only-secret-change-me-0123456789abcdef}
+    expiration-minutes: 60
