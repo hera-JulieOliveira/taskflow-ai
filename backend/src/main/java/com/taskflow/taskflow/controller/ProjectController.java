@@ -5,6 +5,8 @@ import com.taskflow.taskflow.dto.ProjectResponse;
 import com.taskflow.taskflow.service.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,29 +22,35 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<ProjectResponse> list() {
-        return service.findAll();
+    public List<ProjectResponse> list(@AuthenticationPrincipal Jwt jwt) {
+        return service.findAll(userId(jwt));
     }
 
     @GetMapping("/{id}")
-    public ProjectResponse get(@PathVariable Long id) {
-        return service.findById(id);
+    public ProjectResponse get(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
+        return service.findById(userId(jwt), id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProjectResponse create(@Valid @RequestBody ProjectRequest request) {
-        return service.create(request);
+    public ProjectResponse create(@AuthenticationPrincipal Jwt jwt,
+                                  @Valid @RequestBody ProjectRequest request) {
+        return service.create(userId(jwt), request);
     }
 
     @PutMapping("/{id}")
-    public ProjectResponse update(@PathVariable Long id, @Valid @RequestBody ProjectRequest request) {
-        return service.update(id, request);
+    public ProjectResponse update(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id,
+                                  @Valid @RequestBody ProjectRequest request) {
+        return service.update(userId(jwt), id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public void delete(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
+        service.delete(userId(jwt), id);
+    }
+
+    private Long userId(Jwt jwt) {
+        return Long.valueOf(jwt.getSubject());
     }
 }

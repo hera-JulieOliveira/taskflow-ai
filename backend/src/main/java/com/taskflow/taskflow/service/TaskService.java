@@ -23,16 +23,16 @@ public class TaskService {
     }
 
     @Transactional(readOnly = true)
-    public List<TaskResponse> findByProject(Long projectId) {
-        projectService.getOrThrow(projectId);
+    public List<TaskResponse> findByProject(Long userId, Long projectId) {
+        projectService.getOrThrow(userId, projectId);
         return taskRepository.findByProjectIdOrderByCreatedAtAsc(projectId)
                 .stream().map(TaskResponse::from).toList();
     }
 
     @Transactional
-    public TaskResponse create(Long projectId, TaskRequest request) {
+    public TaskResponse create(Long userId, Long projectId, TaskRequest request) {
         Task task = new Task();
-        task.setProject(projectService.getOrThrow(projectId));
+        task.setProject(projectService.getOrThrow(userId, projectId));
         task.setTitle(request.title());
         task.setDescription(request.description());
         task.setStatus(request.status() != null ? request.status() : TaskStatus.TODO);
@@ -40,8 +40,8 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskResponse update(Long id, TaskRequest request) {
-        Task task = getOrThrow(id);
+    public TaskResponse update(Long userId, Long id, TaskRequest request) {
+        Task task = getOrThrow(userId, id);
         task.setTitle(request.title());
         task.setDescription(request.description());
         if (request.status() != null) {
@@ -51,12 +51,12 @@ public class TaskService {
     }
 
     @Transactional
-    public void delete(Long id) {
-        taskRepository.delete(getOrThrow(id));
+    public void delete(Long userId, Long id) {
+        taskRepository.delete(getOrThrow(userId, id));
     }
 
-    private Task getOrThrow(Long id) {
-        return taskRepository.findById(id)
+    private Task getOrThrow(Long userId, Long id) {
+        return taskRepository.findByIdAndProjectOwnerId(id, userId)
                 .orElseThrow(() -> new NotFoundException("Tarefa não encontrada: " + id));
     }
 }
