@@ -16,3 +16,9 @@ app:
     # Em produção, SEMPRE defina JWT_SECRET (mínimo 32 caracteres)
     secret: ${JWT_SECRET:dev-only-secret-change-me-0123456789abcdef}
     expiration-minutes: 60
+  ai:
+    # A chave vem SOMENTE de variável de ambiente. Nunca escreva no código.
+    api-key: ${ANTHROPIC_API_KEY:}
+    model: ${ANTHROPIC_MODEL:claude-sonnet-5-5}
+    base-url: https://api.anthropic.com
+    max-calls-per-hour: 20
