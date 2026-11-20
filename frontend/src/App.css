@@ -69,3 +69,31 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.ai-panel {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px dashed #8886;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.ai-result {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #8881;
+}
+
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.small {
+  font-size: 0.8em;
+  margin: 0;
+}
