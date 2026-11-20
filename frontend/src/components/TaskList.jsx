@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api/client'
+import AiAssistant from './AiAssistant'
+import ProjectSummary from './ProjectSummary'
 
 const STATUS_LABELS = {
   TODO: 'A fazer',
@@ -42,6 +44,18 @@ export default function TaskList({ project, onBack }) {
     }
   }
 
+  async function createSubtasks(items) {
+    try {
+      setError('')
+      for (const item of items) {
+        await api.createTask(project.id, { title: item.slice(0, 150) })
+      }
+      await load()
+    } catch (e) {
+      setError(e.message)
+    }
+  }
+
   async function handleStatusChange(task, status) {
     try {
       setError('')
@@ -72,6 +86,8 @@ export default function TaskList({ project, onBack }) {
       <h2>{project.name}</h2>
       {project.description && <p className="muted">{project.description}</p>}
 
+      <ProjectSummary projectId={project.id} />
+
       <form onSubmit={handleSubmit} className="form">
         <input
           placeholder="Título da tarefa"
@@ -87,6 +103,13 @@ export default function TaskList({ project, onBack }) {
         />
         <button type="submit">Adicionar tarefa</button>
       </form>
+
+      <AiAssistant
+        title={title}
+        description={description}
+        onUseDescription={setDescription}
+        onUseSubtasks={createSubtasks}
+      />
 
       {error && <p className="error" role="alert">{error}</p>}
       {loading && <p>Carregando...</p>}

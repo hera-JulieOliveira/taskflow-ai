@@ -63,4 +63,12 @@ export const api = {
   updateTask: (id, data) =>
     request(`/tasks/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteTask: (id) => request(`/tasks/${id}`, { method: 'DELETE' }),
+
+  aiDescription: (data) =>
+    request('/ai/description', { method: 'POST', body: JSON.stringify(data) }),
+  aiSubtasks: (data) =>
+    request('/ai/subtasks', { method: 'POST', body: JSON.stringify(data) }),
+  aiSummary: (projectId) => request(`/ai/projects/${projectId}/summary`),
+  aiFeedback: (data) =>
+    request('/ai/feedback', { method: 'POST', body: JSON.stringify(data) }),
 }
