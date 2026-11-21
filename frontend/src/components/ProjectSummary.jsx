@@ -23,10 +23,13 @@ export default function ProjectSummary({ projectId }) {
 
   return (
     <div className="ai-panel">
-      <button onClick={generate} disabled={loading}>
-        {loading ? 'Resumindo...' : 'Resumir andamento com IA'}
-      </button>
-      {error && <p className="error" role="alert">{error}</p>}
+      <div className="task-actions">
+        <div className="ai-title"><span aria-hidden="true">✨</span> Resumo com IA</div>
+        <button className="btn btn-ai btn-sm" onClick={generate} disabled={loading}>
+          {loading ? 'Resumindo...' : 'Resumir andamento'}
+        </button>
+      </div>
+      {error && <div className="alert" role="alert">{error}</div>}
       {text && (
         <div className="ai-result">
           <p>{text}</p>

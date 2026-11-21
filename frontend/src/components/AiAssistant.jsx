@@ -31,10 +31,12 @@ export default function AiAssistant({ title, description, onUseDescription, onUs
 
   return (
     <div className="ai-panel">
-      <strong>Assistente de IA</strong>
-      <div className="actions">
+      <div className="ai-title"><span aria-hidden="true">✨</span> Assistente de IA</div>
+
+      <div className="ai-actions">
         <button
           type="button"
+          className="btn btn-ai"
           onClick={() => run('description')}
           disabled={!hasTitle || loading !== ''}
         >
@@ -42,23 +44,26 @@ export default function AiAssistant({ title, description, onUseDescription, onUs
         </button>
         <button
           type="button"
+          className="btn btn-ai"
           onClick={() => run('subtasks')}
           disabled={!hasTitle || loading !== ''}
         >
           {loading === 'subtasks' ? 'Pensando...' : 'Sugerir subtarefas'}
         </button>
       </div>
-      {!hasTitle && <p className="muted">Digite o título da tarefa para usar a IA.</p>}
 
-      {error && <p className="error" role="alert">{error}</p>}
+      {!hasTitle && <p className="muted">Digite o título da tarefa para liberar a IA.</p>}
+      {error && <div className="alert" role="alert">{error}</div>}
 
       {result?.feature === 'description' && (
         <div className="ai-result">
           <p>{result.text}</p>
-          <button type="button" onClick={() => onUseDescription(result.text)}>
-            Usar esta descrição
-          </button>
-          <FeedbackButtons feature="description" />
+          <div className="task-actions">
+            <button type="button" className="btn btn-primary btn-sm" onClick={() => onUseDescription(result.text)}>
+              Usar esta descrição
+            </button>
+            <FeedbackButtons feature="description" />
+          </div>
         </div>
       )}
 
@@ -67,10 +72,12 @@ export default function AiAssistant({ title, description, onUseDescription, onUs
           <ul>
             {result.items.map((item, i) => <li key={i}>{item}</li>)}
           </ul>
-          <button type="button" onClick={() => onUseSubtasks(result.items)}>
-            Criar estas subtarefas
-          </button>
-          <FeedbackButtons feature="subtasks" />
+          <div className="task-actions">
+            <button type="button" className="btn btn-primary btn-sm" onClick={() => onUseSubtasks(result.items)}>
+              Criar estas subtarefas
+            </button>
+            <FeedbackButtons feature="subtasks" />
+          </div>
         </div>
       )}
 
