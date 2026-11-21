@@ -10,6 +10,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,10 @@ public class AiClient {
                     .retrieve()
                     .body(Map.class);
             return extractText(response);
+        } catch (RestClientResponseException e) {
+            log.warn("A API de IA respondeu com status {}", e.getStatusCode().value());
+            throw new AiException(HttpStatus.BAD_GATEWAY,
+                    "O assistente de IA está indisponível no momento. Tente novamente.");
         } catch (RestClientException e) {
             // Não logamos a requisição (pode conter dados do usuário) nem a chave
             log.warn("Falha ao chamar a API de IA: {}", e.getClass().getSimpleName());
