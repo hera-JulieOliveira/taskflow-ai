@@ -1,9 +1,15 @@
 const TOKEN_KEY = 'taskflow_token'
+const EMAIL_KEY = 'taskflow_email'
 
 export const auth = {
   getToken: () => localStorage.getItem(TOKEN_KEY),
   setToken: (token) => localStorage.setItem(TOKEN_KEY, token),
-  clear: () => localStorage.removeItem(TOKEN_KEY),
+  clear: () => {
+    localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem(EMAIL_KEY)
+  },
+  getEmail: () => localStorage.getItem(EMAIL_KEY) || '',
+  setEmail: (email) => localStorage.setItem(EMAIL_KEY, email),
 }
 
 let onUnauthorized = () => {}

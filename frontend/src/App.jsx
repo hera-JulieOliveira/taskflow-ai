@@ -19,20 +19,32 @@ export default function App() {
     setUnauthorizedHandler(logout)
   }, [])
 
+  if (!authenticated) {
+    return <AuthForm onAuthenticated={() => setAuthenticated(true)} />
+  }
+
   return (
-    <main className="container">
-      <header className="header">
-        <h1>TaskFlow AI</h1>
-        {authenticated && <button onClick={logout}>Sair</button>}
+    <>
+      <header className="topbar">
+        <div className="topbar-inner">
+          <button className="brand" onClick={() => setSelected(null)}>
+            <span className="brand-logo" aria-hidden="true">✓</span>
+            TaskFlow AI
+          </button>
+          <div className="user-box">
+            <span className="user-email">{auth.getEmail()}</span>
+            <button className="btn btn-sm" onClick={logout}>Sair</button>
+          </div>
+        </div>
       </header>
 
-      {!authenticated ? (
-        <AuthForm onAuthenticated={() => setAuthenticated(true)} />
-      ) : selected ? (
-        <TaskList project={selected} onBack={() => setSelected(null)} />
-      ) : (
-        <ProjectList onSelect={setSelected} />
-      )}
-    </main>
+      <main className="page">
+        {selected ? (
+          <TaskList project={selected} onBack={() => setSelected(null)} />
+        ) : (
+          <ProjectList onSelect={setSelected} />
+        )}
+      </main>
+    </>
   )
 }

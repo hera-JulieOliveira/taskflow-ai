@@ -15,13 +15,13 @@ export default function FeedbackButtons({ feature }) {
     }
   }
 
-  if (sent) return <p className="muted">Obrigada pelo feedback!</p>
+  if (sent) return <p className="muted">Obrigada pelo feedback! 💜</p>
 
   return (
     <div className="feedback">
-      <span className="muted">Esta resposta foi útil?</span>
-      <button onClick={() => send(true)} aria-label="Resposta útil">👍</button>
-      <button onClick={() => send(false)} aria-label="Resposta não útil">👎</button>
+      <span className="muted">Foi útil?</span>
+      <button className="btn btn-sm" onClick={() => send(true)} aria-label="Resposta útil">👍</button>
+      <button className="btn btn-sm" onClick={() => send(false)} aria-label="Resposta não útil">👎</button>
       {error && <span className="error" role="alert">{error}</span>}
     </div>
   )
