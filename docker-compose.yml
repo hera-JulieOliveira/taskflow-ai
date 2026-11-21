@@ -11,5 +11,27 @@ services:
     volumes:
       - taskflow-data:/var/lib/postgresql/data
 
+  api:
+    build: ./backend
+    container_name: taskflow-api
+    profiles: ["full"]
+    depends_on:
+      - db
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/taskflow
+      DB_USER: taskflow
+      DB_PASSWORD: taskflow
+      JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-me-0123456789abcdef}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
+  web:
+    build: ./frontend
+    container_name: taskflow-web
+    profiles: ["full"]
+    depends_on:
+      - api
+    ports:
+      - "8081:80"
+
 volumes:
   taskflow-data:
