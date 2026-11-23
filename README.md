@@ -18,7 +18,7 @@ Gerenciador de tarefas com assistente de IA generativa.
 
 Para usar a IA, defina `ANTHROPIC_API_KEY` no terminal antes de subir a API.
 
-Para subir tudo em containers: `docker compose --profile full up -d --build` (abre em http://localhost:8081).
+docker compose --profile full up -d --build` (abre em http://localhost:8081).
 
 ## Testes
 `cd backend && ./mvnw test`
