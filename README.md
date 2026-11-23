@@ -6,10 +6,25 @@ Gerenciador de tarefas com assistente de IA generativa.
 
 **Stack:** Java 21, Spring Boot, PostgreSQL, React (Vite), API da Anthropic, Docker, GitHub Actions.
 
+## Telas
+
+| Login | Cadastro |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Cadastro](docs/screenshots/login2.png) |
+
+| Projetos | Quadro Kanban |
+|---|---|
+| ![Projetos](docs/screenshots/myprojects.png) | ![Kanban](docs/screenshots/kanban.png) |
+
+| Assistente de IA |
+|---|
+| ![Assistente de IA](docs/screenshots/ia.png) |
+
 ## Funcionalidades
 - Cadastro e login com JWT
-- Projetos e tarefas por usuário
+- Projetos e tarefas por usuário, em quadro Kanban
 - Assistente de IA: gerar descrição, sugerir subtarefas e resumir o projeto, com feedback 👍/👎
+- Tema claro e escuro automático
 
 ## Como rodar
 1. Banco: `docker compose up -d`
